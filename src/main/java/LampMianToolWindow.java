@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 public class LampMianToolWindow {
     private JPanel mainPanel;
     private JScrollPane scroll;
+    private JButton btnRefresh;
 
     Object[] columnIdentifiers = new Object[]{"CodeExamples"};
     private DefaultTableModel tableModel;
@@ -16,11 +17,15 @@ public class LampMianToolWindow {
 
 
     public LampMianToolWindow(ToolWindow toolWindow) {
+        btnRefresh.addActionListener(e -> updateData());
+
         this.initDataList();
     }
 
-    private void initDataList() {
-        tableModel = new DefaultTableModel();
+    /**
+     * Paint retrieved snippets.
+     */
+    private void updateData() {
         // TODO put real data.
         String tokens = "private void clickButtonAt(Point point) {\n" +
                 "        int index = jlist.locationToIndex(point);\n" +
@@ -31,12 +36,16 @@ public class LampMianToolWindow {
                 {tokens}, {tokens}, {tokens}, {tokens}, {tokens}, {tokens}};
         tableModel.setDataVector(dataVector, columnIdentifiers);
 
-
         table = new SnippetJTable(tableModel);
         table.getColumn("CodeExamples").setCellRenderer(new TextAreaRenderer());
         table.getColumn("CodeExamples").setCellEditor(new TextAreaEditor());
 
         scroll.setViewportView(table);
+    }
+
+    private void initDataList() {
+        tableModel = new DefaultTableModel();
+        updateData();
     }
 
 

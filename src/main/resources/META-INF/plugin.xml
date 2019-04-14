@@ -1,12 +1,11 @@
 <idea-plugin>
     <id>com.zsf.LAMPPlugin</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>LAMP</name>
+    <vendor email="sfzhou567@sjtu.edu.cn" url="https://github.com/sfzhou5678">sfzhou567</vendor>
 
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>
+    <description>
+        hello
+    </description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -15,7 +14,7 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <toolWindow id="Code Examples" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
     </extensions>
 
     <actions>

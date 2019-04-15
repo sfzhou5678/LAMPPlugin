@@ -1,6 +1,8 @@
 package component;
 
 import infos.MethodInfo;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -8,13 +10,16 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 public class TextAreaRenderer extends JScrollPane implements TableCellRenderer {
-    JTextArea textarea;
+    RSyntaxTextArea textarea;
 
     public TextAreaRenderer() {
-        textarea = new JTextArea();
-        textarea.setLineWrap(true);
-        textarea.setWrapStyleWord(true);
-        textarea.setBorder(new TitledBorder("Title Border"));
+        textarea = new RSyntaxTextArea();
+        textarea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+//        textarea.setCodeFoldingEnabled(true);   // code folding failed in JTable
+
+//        textarea.setLineWrap(true);
+//        textarea.setWrapStyleWord(true);
+//        textarea.setBorder(new TitledBorder("Title Border"));
         getViewport().add(textarea);
     }
 
@@ -30,7 +35,8 @@ public class TextAreaRenderer extends JScrollPane implements TableCellRenderer {
         }
         this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         try {
-            table.setRowHeight(row, 20 * lineCnt + 10);
+            int fontsize = 16;
+            table.setRowHeight(row, fontsize * lineCnt + 10);
         } catch (Exception e) {
             table.setRowHeight(row, 150);
         }

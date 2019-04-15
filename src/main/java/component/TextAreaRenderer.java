@@ -1,5 +1,7 @@
 package component;
 
+import infos.MethodInfo;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
@@ -19,8 +21,19 @@ public class TextAreaRenderer extends JScrollPane implements TableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
                                                    boolean isSelected, boolean hasFocus,
                                                    int row, int column) {
+        String lineCode = (String) value;
+        int lineCnt = 1;
+        for (int i = 0; i < lineCode.length(); i++) {
+            char c = lineCode.charAt(i);
+            if (c == '\n')
+                lineCnt++;
+        }
         this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        table.setRowHeight(row, 150);   // TODO dynamic set row height
+        try {
+            table.setRowHeight(row, 20 * lineCnt + 10);
+        } catch (Exception e) {
+            table.setRowHeight(row, 150);
+        }
         if (isSelected) {
             setForeground(table.getSelectionForeground());
             setBackground(table.getSelectionBackground());
@@ -33,7 +46,7 @@ public class TextAreaRenderer extends JScrollPane implements TableCellRenderer {
             textarea.setBackground(table.getBackground());
         }
 
-        textarea.setText((String) value);
+        textarea.setText(lineCode);
         textarea.setCaretPosition(0);
         return this;
     }

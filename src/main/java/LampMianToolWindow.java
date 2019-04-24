@@ -24,7 +24,6 @@ public class LampMianToolWindow {
 
     public LampMianToolWindow(ToolWindow toolWindow) {
         btnRefresh.addActionListener(e -> updateData());
-
         this.initDataList();
     }
 
@@ -42,7 +41,12 @@ public class LampMianToolWindow {
             Object[][] dataVector = new Object[methodInfoList.size()][1];
             for (int i = 0; i < methodInfoList.size(); i++) {
                 MethodInfo methodInfo = methodInfoList.get(i);
-                dataVector[i][0] = String.join("", methodInfo.getRawLineCodes());
+                try {
+                    dataVector[i][0] = String.join("", methodInfo.getRawLineCodes());
+                } catch (Exception e) {
+                    dataVector[i][0] = "";
+                }
+
             }
             tableModel.setDataVector(dataVector, columnIdentifiers);
 

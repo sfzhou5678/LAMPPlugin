@@ -34,7 +34,7 @@ public class LampMainToolWindow {
         initData();
     }
 
-    private void updateView(List<MethodInfo> methodInfoList) {
+    public void updateView(List<MethodInfo> methodInfoList) {
         if (methodInfoList == null || methodInfoList.size() == 0) {
             // do something
         } else {

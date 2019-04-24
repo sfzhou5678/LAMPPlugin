@@ -3,10 +3,7 @@ package http;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -29,7 +26,7 @@ public class LAMPHttpUtil {
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setDoOutput(true);
 
-            PrintStream ps = new PrintStream(conn.getOutputStream());
+            PrintStream ps = new PrintStream(conn.getOutputStream(), false, "utf-8");
             ps.print(query);
             ps.close();
 

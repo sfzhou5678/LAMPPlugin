@@ -15,9 +15,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Code Examples" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
+        <projectService serviceInterface="service.MainToolWindowService"
+                        serviceImplementation="service.MainToolWindowService"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
+        <action id="com.zsf.InvokeLAMPAction" class="action.InvokeLAMPAction" text="InvokeLAMPAction">
+            <add-to-group group-id="CodeMenu" anchor="before" relative-to-action="OverrideMethods"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift alt A"/>
+        </action>
     </actions>
 </idea-plugin>

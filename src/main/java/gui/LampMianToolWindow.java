@@ -1,3 +1,5 @@
+package gui;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.intellij.openapi.wm.ToolWindow;
@@ -24,7 +26,7 @@ public class LampMianToolWindow {
 
     public LampMianToolWindow(ToolWindow toolWindow) {
         btnRefresh.addActionListener(e -> updateData());
-        this.initDataList();
+        this.initView();
     }
 
     private void updateData() {
@@ -63,7 +65,6 @@ public class LampMianToolWindow {
      * Paint retrieved snippets.
      */
     private void initData() {
-        // TODO put real data.
         String tokens = "private void clickButtonAt(Point point) {\n" +
                 "        int index = jlist.locationToIndex(point);\n" +
                 "        PanelItem item = (PanelItem) jlist.getModel().getElementAt(index);\n" +
@@ -79,7 +80,7 @@ public class LampMianToolWindow {
         scroll.setViewportView(table);
     }
 
-    private void initDataList() {
+    public void initView() {
         tableModel = new DefaultTableModel();
         initData();
     }

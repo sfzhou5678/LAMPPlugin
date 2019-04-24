@@ -7,12 +7,10 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import gui.LampMianToolWindow;
+import gui.LampMainToolWindow;
 import service.MainToolWindowService;
 import slp.core.infos.MethodInfo;
 import slp.core.lexing.code.JavaDetailLexer;
-
-import java.util.stream.Collectors;
 
 import static slp.core.lexing.DetailLexerRunner.extractCurrentMethodInfo;
 
@@ -28,7 +26,7 @@ public class InvokeLAMPAction extends AnAction {
         // get get registered service
         Project project = e.getData(PlatformDataKeys.PROJECT);
         MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-        LampMianToolWindow toolWindow = mainToolWindowService.getToolWindow();
+        LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
         toolWindow.initView();
 
         // get current-edit code and something relevant
@@ -43,9 +41,8 @@ public class InvokeLAMPAction extends AnAction {
             MethodInfo currentMethod = extractCurrentMethodInfo(lexer, codeContext);
             if (currentMethod != null) {
                 // then get relevant data and feed forward into toolWindow
-                System.out.println(currentMethod);
-
                 // TODO: 2019/4/24 1. remote LM & remote retriever
+
 
                 // TODO: 2019/4/24  2. local LM & local retriever
 

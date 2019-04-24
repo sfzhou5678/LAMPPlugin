@@ -7,13 +7,15 @@ import component.SnippetJTable;
 import component.TextAreaEditor;
 import component.TextAreaRenderer;
 import http.LAMPHttpClient;
-import infos.MethodInfo;
+import http.LAMPHttpUtil;
+import slp.core.infos.MethodInfo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 import java.util.List;
 
-public class LampMianToolWindow {
+public class LampMainToolWindow {
     private JPanel mainPanel;
     private JScrollPane scroll;
     private JButton btnRefresh;
@@ -22,33 +24,36 @@ public class LampMianToolWindow {
     private DefaultTableModel tableModel;
     private SnippetJTable table;
 
-    private String localServerUrl = "http://localhost:58362";
-
-    public LampMianToolWindow(ToolWindow toolWindow) {
+    public LampMainToolWindow(ToolWindow toolWindow) {
         btnRefresh.addActionListener(e -> updateData());
         this.initView();
     }
 
-    private void updateData() {
-        String restfulAPI = "search_codes";
-        String url = localServerUrl + "/" + restfulAPI;
-        String query = "";    // fixme: use context code and other information.
-        String jsonData = LAMPHttpClient.post(url, query);
-        if (jsonData != null && !jsonData.isEmpty()) {
-            Gson gson = new Gson();
-            List<MethodInfo> methodInfoList = gson.fromJson(
-                    jsonData, new TypeToken<List<MethodInfo>>() {
-                    }.getType());
+    public void initView() {
+        tableModel = new DefaultTableModel();
+        initData();
+    }
 
-            Object[][] dataVector = new Object[methodInfoList.size()][1];
+    private void updateView(List<MethodInfo> methodInfoList) {
+        if (methodInfoList == null || methodInfoList.size() == 0) {
+            // do something
+        } else {
+            List<String> texts = new ArrayList<>();
             for (int i = 0; i < methodInfoList.size(); i++) {
                 MethodInfo methodInfo = methodInfoList.get(i);
                 try {
-                    dataVector[i][0] = String.join("", methodInfo.getRawLineCodes());
+                    StringBuilder stringBuilder = new StringBuilder();
+//                    if (!methodInfo.getDocComments().isEmpty()) {
+//                        stringBuilder.append("\t/**" + methodInfo.getDocComments() + "*/\n");
+//                    }
+                    stringBuilder.append(String.join("", methodInfo.getLineCodes()));
+                    texts.add(stringBuilder.toString());
                 } catch (Exception e) {
-                    dataVector[i][0] = "";
                 }
-
+            }
+            Object[][] dataVector = new Object[texts.size()][1];
+            for (int i = 0; i < texts.size(); i++) {
+                dataVector[i][0] = texts.get(i);
             }
             tableModel.setDataVector(dataVector, columnIdentifiers);
 
@@ -58,13 +63,21 @@ public class LampMianToolWindow {
 
             scroll.setViewportView(table);
         }
-
     }
 
-    /**
-     * Paint retrieved snippets.
-     */
+    private LAMPHttpClient httpClient;
+
+    @Deprecated
+    private void updateData() {
+        if (httpClient == null) {
+            httpClient = new LAMPHttpClient("localhost", 58362);
+        }
+        List<MethodInfo> methodInfoList = httpClient.showNextExample();
+        updateView(methodInfoList);
+    }
+
     private void initData() {
+        // TODO: 2019/4/24 welcome page or something else?
         String tokens = "private void clickButtonAt(Point point) {\n" +
                 "        int index = jlist.locationToIndex(point);\n" +
                 "        PanelItem item = (PanelItem) jlist.getModel().getElementAt(index);\n" +
@@ -78,11 +91,6 @@ public class LampMianToolWindow {
         table.getColumn("CodeExamples").setCellEditor(new TextAreaEditor());
 
         scroll.setViewportView(table);
-    }
-
-    public void initView() {
-        tableModel = new DefaultTableModel();
-        initData();
     }
 
 

@@ -4,7 +4,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import gui.LampMianToolWindow;
+import gui.LampMainToolWindow;
 import service.MainToolWindowService;
 
 /**
@@ -16,14 +16,14 @@ import service.MainToolWindowService;
 public class LAMPToolWindowFactory implements ToolWindowFactory {
     // Create the tool window content.
     public void createToolWindowContent(Project project, ToolWindow toolWindow) {
-        LampMianToolWindow lampMianToolWindow = new LampMianToolWindow(toolWindow);
+        LampMainToolWindow lampMainToolWindow = new LampMainToolWindow(toolWindow);
 
         // get registered service, used for communicating between Action & Tool window
         MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-        mainToolWindowService.setToolWindow(lampMianToolWindow);
+        mainToolWindowService.setToolWindow(lampMainToolWindow);
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(lampMianToolWindow.getContent(), "", false);
+        Content content = contentFactory.createContent(lampMainToolWindow.getContent(), "", false);
         toolWindow.getContentManager().addContent(content);
     }
 }

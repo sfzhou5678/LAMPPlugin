@@ -1,6 +1,5 @@
 package component;
 
-import infos.MethodInfo;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 

@@ -1,15 +1,15 @@
 package service;
 
-import gui.LampMianToolWindow;
+import gui.LampMainToolWindow;
 
 public class MainToolWindowService {
-    private LampMianToolWindow toolWindow;
+    private LampMainToolWindow toolWindow;
 
-    public LampMianToolWindow getToolWindow() {
+    public LampMainToolWindow getToolWindow() {
         return toolWindow;
     }
 
-    public void setToolWindow(LampMianToolWindow toolWindow) {
+    public void setToolWindow(LampMainToolWindow toolWindow) {
         this.toolWindow = toolWindow;
     }
 }

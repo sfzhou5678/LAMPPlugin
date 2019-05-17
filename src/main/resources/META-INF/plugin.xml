@@ -25,5 +25,7 @@
             <add-to-group group-id="CodeMenu" anchor="before" relative-to-action="OverrideMethods"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt A"/>
         </action>
+        <action id="com.zsf.ImplicitlyInvokeLAMPAction" class="action.ImplicitlyInvokeLAMPAction"
+                text="ImplicitlyInvokeLAMPAction" description="ImplicitlyInvokeLAMPAction"/>
     </actions>
 </idea-plugin>

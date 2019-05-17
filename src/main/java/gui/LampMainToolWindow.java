@@ -8,6 +8,7 @@ import component.TextAreaEditor;
 import component.TextAreaRenderer;
 import http.LAMPHttpClient;
 import http.LAMPHttpUtil;
+import javafx.util.Pair;
 import slp.core.infos.MethodInfo;
 
 import javax.swing.*;
@@ -34,18 +35,20 @@ public class LampMainToolWindow {
         initData();
     }
 
-    public void updateView(List<MethodInfo> methodInfoList) {
+    public void updateView(List<Pair<MethodInfo, Double>> methodInfoList) {
         if (methodInfoList == null || methodInfoList.size() == 0) {
             // do something
         } else {
             List<String> texts = new ArrayList<>();
             for (int i = 0; i < methodInfoList.size(); i++) {
-                MethodInfo methodInfo = methodInfoList.get(i);
+                MethodInfo methodInfo = methodInfoList.get(i).getKey();
+                Double score = methodInfoList.get(i).getValue();
                 try {
                     StringBuilder stringBuilder = new StringBuilder();
 //                    if (!methodInfo.getDocComments().isEmpty()) {
 //                        stringBuilder.append("\t/**" + methodInfo.getDocComments() + "*/\n");
 //                    }
+                    stringBuilder.append("Score:" + String.valueOf(score) + "\n");  // FIXME: integrate this into GUI component
                     stringBuilder.append(String.join("\n", methodInfo.getLineCodes()));
                     texts.add(stringBuilder.toString());
                 } catch (Exception e) {
@@ -69,11 +72,11 @@ public class LampMainToolWindow {
 
     @Deprecated
     private void updateData() {
-        if (httpClient == null) {
-            httpClient = new LAMPHttpClient("localhost", 58362);
-        }
-        List<MethodInfo> methodInfoList = httpClient.showNextExample();
-        updateView(methodInfoList);
+//        if (httpClient == null) {
+//            httpClient = new LAMPHttpClient("localhost", 58362);
+//        }
+//        List<MethodInfo> methodInfoList = httpClient.showNextExample();
+//        updateView(methodInfoList);
     }
 
     private void initData() {

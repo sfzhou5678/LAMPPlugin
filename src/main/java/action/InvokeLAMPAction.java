@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import gui.LampMainToolWindow;
 import http.LAMPHttpClient;
+import javafx.util.Pair;
 import service.MainToolWindowService;
 import slp.core.infos.MethodInfo;
 import slp.core.lexing.code.JavaDetailLexer;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static slp.core.lexing.DetailLexerRunner.extractCurrentMethodInfo;
 
-public class InvokeLAMPAction extends AnAction implements ShowSnippetsCallBack {
+public class InvokeLAMPAction extends AnAction {
     private JavaDetailLexer lexer = new JavaDetailLexer();
     private LAMPHttpClient httpClient = new LAMPHttpClient("localhost", 58362);
 
@@ -37,7 +38,6 @@ public class InvokeLAMPAction extends AnAction implements ShowSnippetsCallBack {
             try {
                 Editor editor = e.getData(PlatformDataKeys.EDITOR);
                 final Document doc = editor.getDocument();
-
                 int offset = editor.getCaretModel().getOffset();    // the pos (offset) of cursor in the given document.
                 String codeContext = doc.getText().substring(0, offset);
 
@@ -46,9 +46,15 @@ public class InvokeLAMPAction extends AnAction implements ShowSnippetsCallBack {
                 if (currentMethod != null) {
                     // 1. remote LM & remote retriever
                     // TODO: 2019/5/17 show the confidence scores
-                    List<MethodInfo> methodInfoList = httpClient.searchCode(codeContext, currentMethod);
-                    toolWindow.updateView(methodInfoList);
+                    List<Pair<MethodInfo, Double>> methodInfoList = httpClient.searchCode(codeContext, currentMethod);
 
+                    // if the retrieved results are different with the current code context, it will be ignored.
+                    int offset2 = editor.getCaretModel().getOffset();
+                    if (Math.abs(offset2 - offset) <= 30) {
+                        toolWindow.initView();
+                        toolWindow.updateView(methodInfoList);
+//                        showSnippets(methodInfoList, toolWindow);
+                    }
                     // TODO: 2019/4/24  2. local LM & local retriever
 
                     // TODO: 2019/4/24  3. merge results from remote & local, if remote overtimes, only show the local results.
@@ -59,11 +65,5 @@ public class InvokeLAMPAction extends AnAction implements ShowSnippetsCallBack {
         }).start();
 
 
-    }
-
-    @Override
-    public void showSnippets(List<MethodInfo> methodInfoList, LampMainToolWindow toolWindow) {
-        toolWindow.initView();
-        toolWindow.updateView(methodInfoList);
     }
 }

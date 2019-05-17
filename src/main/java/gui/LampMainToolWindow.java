@@ -46,7 +46,7 @@ public class LampMainToolWindow {
 //                    if (!methodInfo.getDocComments().isEmpty()) {
 //                        stringBuilder.append("\t/**" + methodInfo.getDocComments() + "*/\n");
 //                    }
-                    stringBuilder.append(String.join("", methodInfo.getLineCodes()));
+                    stringBuilder.append(String.join("\n", methodInfo.getLineCodes()));
                     texts.add(stringBuilder.toString());
                 } catch (Exception e) {
                 }

@@ -37,7 +37,7 @@ public class LAMPHttpClient {
                     jsonData, new TypeToken<List<MethodInfo>>() {
                     }.getType());
         } else {
-            methodInfoList = new ArrayList<>();
+            methodInfoList = null;
         }
         return methodInfoList;
     }

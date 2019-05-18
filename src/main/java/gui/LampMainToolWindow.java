@@ -11,15 +11,24 @@ import http.LAMPHttpUtil;
 import javafx.util.Pair;
 import slp.core.infos.MethodInfo;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LampMainToolWindow {
     private JPanel mainPanel;
+
+    private JTabbedPane tabbedPane;
+
     private JScrollPane scroll;
     private JButton btnRefresh;
+    private JLabel labelWelcomeImage;
+    private JTextField someSlogansTextField;
 
     Object[] columnIdentifiers = new Object[]{"CodeExamples"};
     private DefaultTableModel tableModel;
@@ -33,6 +42,15 @@ public class LampMainToolWindow {
     public void initView() {
         tableModel = new DefaultTableModel();
         initData();
+
+        try {
+            BufferedImage myPicture = ImageIO.read(this.getClass().getResource("/images/welcome-bg.jpg"));
+//            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\hasee\\Desktop\\aaaa\\timg.jpg"));
+            labelWelcomeImage.setIcon(new ImageIcon(myPicture));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void updateView(List<Pair<MethodInfo, Double>> methodInfoList) {
@@ -97,7 +115,7 @@ public class LampMainToolWindow {
     }
 
 
-    public JPanel getContent() {
+    public JComponent getContent() {
         return mainPanel;
     }
 

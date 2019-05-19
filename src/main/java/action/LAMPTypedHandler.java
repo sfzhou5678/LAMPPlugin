@@ -1,6 +1,7 @@
 package action;
 
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -32,13 +33,15 @@ public class LAMPTypedHandler implements TypedActionHandler {
         if (!REVERSED_SET.contains(charTyped)) {
             return;
         }
-        System.out.println(charTyped);
-        Project project = editor.getProject();
-        MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-        LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
 
-        final Document doc = editor.getDocument();
-        recommendSnippetHandler.execute(toolWindow, editor, doc);
+        new Thread(() -> {
+            Project project = editor.getProject();
+            MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
+            LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
+
+            final Document doc = editor.getDocument();
+            recommendSnippetHandler.execute(toolWindow, editor, doc);
+        }).start();
     }
 
     public void setOldHandler(TypedActionHandler oldHandler) {

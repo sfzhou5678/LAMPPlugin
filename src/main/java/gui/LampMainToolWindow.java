@@ -8,7 +8,11 @@ import component.TextAreaEditor;
 import component.TextAreaRenderer;
 import http.LAMPHttpClient;
 import http.LAMPHttpUtil;
+import indexer.LuceneIndexer;
 import javafx.util.Pair;
+import org.apache.lucene.search.Query;
+import retriever.LuceneBasicQueryBuilder;
+import retriever.LuceneRetriever;
 import slp.core.infos.MethodInfo;
 
 import javax.imageio.ImageIO;
@@ -29,6 +33,7 @@ public class LampMainToolWindow {
     private JButton btnRefresh;
     private JLabel labelWelcomeImage;
     private JTextField someSlogansTextField;
+    private JButton button2;
 
     Object[] columnIdentifiers = new Object[]{"CodeExamples"};
     private DefaultTableModel tableModel;
@@ -36,6 +41,7 @@ public class LampMainToolWindow {
 
     public LampMainToolWindow(ToolWindow toolWindow) {
         btnRefresh.addActionListener(e -> updateData());
+        button2.addActionListener(e -> searchTest());
         this.initView();
     }
 
@@ -90,11 +96,42 @@ public class LampMainToolWindow {
 
     @Deprecated
     private void updateData() {
+//  codes for BCB eval
 //        if (httpClient == null) {
 //            httpClient = new LAMPHttpClient("localhost", 58362);
 //        }
 //        List<MethodInfo> methodInfoList = httpClient.showNextExample();
 //        updateView(methodInfoList);
+
+        // indexer test codes
+        File file = new File("C:\\Users\\hasee\\Desktop\\aaaa");
+        LuceneIndexer indexer = LuceneIndexer.getIndexer();
+        indexer.indexDir(file);
+    }
+
+    private void searchTest() {
+        LuceneRetriever retriever = LuceneRetriever.getRetriever();
+
+        String tokenText = "getRelevantModel";
+        Query query = LuceneBasicQueryBuilder.buildQuery(tokenText);
+        List<MethodInfo> methodInfos = retriever.search(query);
+        System.out.println(methodInfos);
+
+        tokenText = "public NGramModel getRelevantModel ( String libName";
+        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
+        methodInfos = retriever.search(query);
+        System.out.println(methodInfos);
+
+        tokenText = "lmMap . containsKey ( libName )";
+        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
+        methodInfos = retriever.search(query);
+        System.out.println(methodInfos);
+
+
+        tokenText = "public void saveModel ( String libName";
+        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
+        methodInfos = retriever.search(query);
+        System.out.println(methodInfos);
     }
 
     private void initData() {

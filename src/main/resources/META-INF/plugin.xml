@@ -17,6 +17,9 @@
         <toolWindow id="Code Examples" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
         <projectService serviceInterface="service.MainToolWindowService"
                         serviceImplementation="service.MainToolWindowService"/>
+        <applicationConfigurable groupId="tools" displayName="LAMPSettings"
+                                 id="LAMPConfigurable" instance="config.LAMPConfigurable"/>
+        <applicationService serviceInterface="config.SettingConfig" serviceImplementation="config.SettingConfig"/>
     </extensions>
 
     <actions>

@@ -6,8 +6,11 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import indexer.LuceneIndexer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 @State(name = "SettingConfig", storages = {@Storage("LAMPSettings.xml")})
 public class SettingConfig implements PersistentStateComponent<SettingConfig> {
@@ -41,6 +44,12 @@ public class SettingConfig implements PersistentStateComponent<SettingConfig> {
 
     public String getLOCAL_REP_DIR() {
         return LOCAL_REP_DIR;
+    }
+
+    public void changeLOCAL_REP_DIR(String LOCAL_REP_DIR) {
+        this.setLOCAL_REP_DIR(LOCAL_REP_DIR);
+        // FIXME: 2019/5/20 use Observation Mode
+        LuceneIndexer.getIndexer().indexDir(new File(this.LOCAL_REP_DIR));
     }
 
     public void setLOCAL_REP_DIR(String LOCAL_REP_DIR) {

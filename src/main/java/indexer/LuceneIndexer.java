@@ -1,6 +1,11 @@
 package indexer;
 
 import com.alibaba.fastjson.JSON;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.project.Project;
+import gui.LampMainToolWindow;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -9,6 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import service.MainToolWindowService;
 import slp.core.infos.FileInfo;
 import slp.core.infos.InfoCollector;
 import slp.core.infos.MethodInfo;
@@ -36,6 +42,7 @@ public class LuceneIndexer {
     private JavaDetailLexer lexer = null;
 
     private LuceneIndexer() {
+        // FIXME: 2019/5/20 should Indexer be a service rather than a class?
         lexer = new JavaDetailLexer();
     }
 
@@ -63,21 +70,46 @@ public class LuceneIndexer {
         // TODO: Write-Ahead Logging, read file path from fileQueue, and update methods in the files (if existed -> update, else -> add)
     }
 
+    public static boolean deleteDir(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            return false;
+        }
+
+        String[] content = file.list();
+        for (String name : content) {
+            File temp = new File(path, name);
+            if (temp.isDirectory()) {
+                deleteDir(temp.getAbsolutePath());
+                temp.delete();
+            } else {
+                if (!temp.delete()) {
+                }
+            }
+        }
+        return true;
+    }
+
     public void indexDir(File dir) {
-        // TODO: 2019/5/19 Write-Ahead Logging, records the files needed process & processed files
-        try {
-            Files.walk(dir.toPath())
-                    .map(Path::toFile)
-                    .filter(File::isFile)
-                    .forEach(f -> indexFile(f, false));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.indexWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // FIXME: 2019/5/20 add a check step
+        deleteDir(Paths.get(LuceneIndexer.indexSaveDir).toAbsolutePath().toString());
+
+        new Thread(() -> {
+            // TODO: 2019/5/19 Write-Ahead Logging, records the files needed process & processed files
+            try {
+                Files.walk(dir.toPath())
+                        .map(Path::toFile)
+                        .filter(File::isFile)
+                        .forEach(f -> indexFile(f, false));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                this.indexWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public void indexFile(File file, boolean needCloseWriter) {
@@ -103,8 +135,6 @@ public class LuceneIndexer {
                 return;
             }
         }
-
-
         // FIXME: 2019/5/19 read methods from file , care of params of SLP core!!!!
         FileInfo fileInfo = new FileInfo(file.getName(), "", file.getAbsolutePath());
         String fileId = DigestUtils.md5Hex(fileInfo.getBaseFolderPath() + fileInfo.getRelativeFilePath() + fileInfo.getAffiliatedProject());

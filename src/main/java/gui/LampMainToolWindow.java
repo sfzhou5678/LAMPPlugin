@@ -102,11 +102,6 @@ public class LampMainToolWindow {
 //        }
 //        List<MethodInfo> methodInfoList = httpClient.showNextExample();
 //        updateView(methodInfoList);
-
-        // indexer test codes
-        File file = new File("C:\\Users\\hasee\\Desktop\\aaaa");
-        LuceneIndexer indexer = LuceneIndexer.getIndexer();
-        indexer.indexDir(file);
     }
 
     private void searchTest() {
@@ -115,23 +110,20 @@ public class LampMainToolWindow {
         String tokenText = "getRelevantModel";
         Query query = LuceneBasicQueryBuilder.buildQuery(tokenText);
         List<MethodInfo> methodInfos = retriever.search(query);
-        System.out.println(methodInfos);
 
         tokenText = "public NGramModel getRelevantModel ( String libName";
         query = LuceneBasicQueryBuilder.buildQuery(tokenText);
         methodInfos = retriever.search(query);
-        System.out.println(methodInfos);
 
         tokenText = "lmMap . containsKey ( libName )";
         query = LuceneBasicQueryBuilder.buildQuery(tokenText);
         methodInfos = retriever.search(query);
-        System.out.println(methodInfos);
 
 
         tokenText = "public void saveModel ( String libName";
         query = LuceneBasicQueryBuilder.buildQuery(tokenText);
         methodInfos = retriever.search(query);
-        System.out.println(methodInfos);
+        int a = 1;
     }
 
     private void initData() {

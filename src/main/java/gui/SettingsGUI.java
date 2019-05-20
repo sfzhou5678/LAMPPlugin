@@ -59,7 +59,7 @@ public class SettingsGUI {
     }
 
     public void apply() {
-        config.setLOCAL_REP_DIR(txtLocalRepDir.getText());
+        config.changeLOCAL_REP_DIR(txtLocalRepDir.getText());
         config.setENABLE_REMORE_MODE(ckbEnableOnline.isSelected());
         config.setENABLE_LOCAL_MODE(ckbEnableLocal.isSelected());
         config.setENABLE_DEEP_SEMANTIC(ckbSemantic.isSelected());

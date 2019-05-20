@@ -11,6 +11,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import slp.core.infos.MethodInfo;
+import utils.ParserUtil;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -59,7 +60,9 @@ public class LuceneRetriever {
                 Document doc = searcher.doc(docId);
                 MethodInfo methodInfo = new MethodInfo(doc.get("methodId"), doc.get("methodName"), doc.get("className"), doc.get("returnType"),
                         Arrays.asList(doc.get("paramTypes").split(" ", 0)), Arrays.asList(doc.get("lineCodes").split(" ", 0)));
-                methodInfos.add(methodInfo);
+                if (methodInfo != null && ParserUtil.extractNLwords(Arrays.asList(methodInfo.getMethodName())).size() > 0) {
+                    methodInfos.add(methodInfo);
+                }
             }
             return methodInfos;
         } catch (IOException e) {

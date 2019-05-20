@@ -34,7 +34,7 @@ public class SettingConfig implements PersistentStateComponent<SettingConfig> {
     }
 
 
-    @Nullable
+    @NotNull
     public static SettingConfig getInstance() {
         if (config == null) {
             config = ServiceManager.getService(SettingConfig.class);

@@ -47,11 +47,15 @@ public class LuceneRetriever {
     }
 
     public List<MethodInfo> search(Query query) {
+        return search(query, 10);
+    }
+
+    public List<MethodInfo> search(Query query, int n) {
         if (this.searcher == null) {
             return null;
         }
         try {
-            TopDocs topDocs = searcher.search(query, 10);
+            TopDocs topDocs = searcher.search(query, n);
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 
             List<MethodInfo> methodInfos = new ArrayList<>();
@@ -59,7 +63,7 @@ public class LuceneRetriever {
                 int docId = scoreDoc.doc;
                 Document doc = searcher.doc(docId);
                 MethodInfo methodInfo = new MethodInfo(doc.get("methodId"), doc.get("methodName"), doc.get("className"), doc.get("returnType"),
-                        Arrays.asList(doc.get("paramTypes").split(" ", 0)), Arrays.asList(doc.get("lineCodes").split(" ", 0)));
+                        Arrays.asList(doc.get("paramTypes").split(" ", 0)), Arrays.asList(doc.get("lineCodes").split("\n", 0)));
                 if (methodInfo != null && ParserUtil.extractNLwords(Arrays.asList(methodInfo.getMethodName())).size() > 0) {
                     methodInfos.add(methodInfo);
                 }

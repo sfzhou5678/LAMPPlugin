@@ -1,6 +1,5 @@
 package handler;
 
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import config.SettingConfig;
@@ -8,7 +7,7 @@ import gui.LampMainToolWindow;
 import http.LAMPHttpClient;
 import javafx.util.Pair;
 import org.apache.lucene.search.Query;
-import retriever.LuceneBasicQueryBuilder;
+import retriever.LuceneMultiFiledsQueryBuilder;
 import retriever.LuceneRetriever;
 import slp.core.infos.MethodInfo;
 import slp.core.lexing.code.JavaDetailLexer;
@@ -39,8 +38,7 @@ public class RecommendSnippetHandler {
                 if (config.isENABLE_LOCAL_MODE()) {
                     // 2. local LM & local retriever
                     // TODO: 2019/5/20 refactor to API
-                    String tokenText = String.join(" ", currentMethod.getTokenSequence());
-                    Query query = LuceneBasicQueryBuilder.buildQuery(tokenText);
+                    Query query = LuceneMultiFiledsQueryBuilder.buildQuery(currentMethod);
                     List<MethodInfo> methodInfos = retriever.search(query, 2);
                     for (MethodInfo methodInfo : methodInfos) {
                         methodInfoList.add(new Pair<>(methodInfo, 0.5));

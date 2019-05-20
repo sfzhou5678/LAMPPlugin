@@ -151,6 +151,8 @@ public class LuceneIndexer {
             Field methodNameField = new StringField("methodName", info.getMethodName(), Field.Store.YES);
             Field returnTypeField = new StringField("returnType", info.getReturnType(), Field.Store.YES);
             Field paramTypesField = new TextField("paramTypes", String.join(" ", info.getParamTypes()), Field.Store.YES);
+            Field tokenSequenceField = new TextField("tokenSequence",
+                    String.join(" ", ParserUtil.filterReversedWords(info.getTokenSequence())), Field.Store.YES);
             Field keywordSequenceField = new TextField("keywordSequence",
                     String.join(" ", ParserUtil.extractNLwords(info.getTokenSequence())), Field.Store.YES);
 
@@ -165,6 +167,7 @@ public class LuceneIndexer {
             document.add(methodNameField);
             document.add(returnTypeField);
             document.add(paramTypesField);
+            document.add(tokenSequenceField);
             document.add(keywordSequenceField);
 
             document.add(lineCodes);

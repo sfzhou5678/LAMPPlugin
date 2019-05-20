@@ -1,25 +1,17 @@
 package gui;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.intellij.openapi.wm.ToolWindow;
 import component.SnippetJTable;
 import component.TextAreaEditor;
 import component.TextAreaRenderer;
 import http.LAMPHttpClient;
-import http.LAMPHttpUtil;
-import indexer.LuceneIndexer;
 import javafx.util.Pair;
-import org.apache.lucene.search.Query;
-import retriever.LuceneBasicQueryBuilder;
-import retriever.LuceneRetriever;
 import slp.core.infos.MethodInfo;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +33,13 @@ public class LampMainToolWindow {
 
     public LampMainToolWindow(ToolWindow toolWindow) {
         btnRefresh.addActionListener(e -> updateData());
-        button2.addActionListener(e -> searchTest());
+//        button2.addActionListener(e -> searchTest());
         this.initView();
     }
 
     public void initView() {
         tableModel = new DefaultTableModel();
         initData();
-
         try {
             BufferedImage myPicture = ImageIO.read(this.getClass().getResource("/images/welcome-bg.jpg"));
 //            BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\hasee\\Desktop\\aaaa\\timg.jpg"));
@@ -56,7 +47,6 @@ public class LampMainToolWindow {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void updateView(List<Pair<MethodInfo, Double>> methodInfoList) {
@@ -102,28 +92,6 @@ public class LampMainToolWindow {
 //        }
 //        List<MethodInfo> methodInfoList = httpClient.showNextExample();
 //        updateView(methodInfoList);
-    }
-
-    private void searchTest() {
-        LuceneRetriever retriever = LuceneRetriever.getRetriever();
-
-        String tokenText = "getRelevantModel";
-        Query query = LuceneBasicQueryBuilder.buildQuery(tokenText);
-        List<MethodInfo> methodInfos = retriever.search(query);
-
-        tokenText = "public NGramModel getRelevantModel ( String libName";
-        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
-        methodInfos = retriever.search(query);
-
-        tokenText = "lmMap . containsKey ( libName )";
-        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
-        methodInfos = retriever.search(query);
-
-
-        tokenText = "public void saveModel ( String libName";
-        query = LuceneBasicQueryBuilder.buildQuery(tokenText);
-        methodInfos = retriever.search(query);
-        int a = 1;
     }
 
     private void initData() {

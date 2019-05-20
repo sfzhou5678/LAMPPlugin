@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import config.SettingConfig;
 import javafx.util.Pair;
 import slp.core.infos.MethodInfo;
 
@@ -24,12 +25,13 @@ public class LAMPHttpClient {
         this.baseUrl = String.format("http://%s:%d", host, port);
     }
 
-    public List<Pair<MethodInfo, Double>> searchCode(String codeContext, MethodInfo currentMethod) {
+    public List<Pair<MethodInfo, Double>> searchCode(String codeContext, MethodInfo currentMethod, SettingConfig config) {
         String restfulAPI = "search_codes";
         String url = baseUrl + "/" + restfulAPI;
         JSONObject map = new JSONObject(true);
         map.put("codeContext", codeContext);
         map.put("snippet", currentMethod);
+        map.put("useBert", config.isENABLE_DEEP_SEMANTIC());
         String query = map.toJSONString();
         String jsonData = LAMPHttpUtil.post(url, query);
 

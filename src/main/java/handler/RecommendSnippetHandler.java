@@ -48,7 +48,7 @@ public class RecommendSnippetHandler {
                 }
                 if (config.isENABLE_REMORE_MODE()) {
                     // 1. remote LM & remote retriever
-                    methodInfoList.addAll(httpClient.searchCode(codeContext, currentMethod));
+                    methodInfoList.addAll(httpClient.searchCode(codeContext, currentMethod, config));
                 }
 
                 // TODO: 2019/4/24  3. merge results from remote & local, if remote overtimes, only show the local results.

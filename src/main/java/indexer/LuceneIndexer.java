@@ -14,6 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import retriever.LuceneRetriever;
 import service.MainToolWindowService;
 import slp.core.infos.FileInfo;
 import slp.core.infos.InfoCollector;
@@ -101,6 +102,7 @@ public class LuceneIndexer {
                         .map(Path::toFile)
                         .filter(File::isFile)
                         .forEach(f -> indexFile(f, false));
+                LuceneRetriever.getRetriever().init();
             } catch (IOException e) {
                 e.printStackTrace();
             }

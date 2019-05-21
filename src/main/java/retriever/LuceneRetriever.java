@@ -36,7 +36,7 @@ public class LuceneRetriever {
         return retriever;
     }
 
-    private void init() {
+    public void init() {
         try {
             Directory directory = FSDirectory.open(Paths.get(LuceneIndexer.indexSaveDir));
             this.reader = DirectoryReader.open(directory);

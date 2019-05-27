@@ -19,6 +19,7 @@ public class SettingConfig implements PersistentStateComponent<SettingConfig> {
     private boolean ENABLE_REMORE_MODE = true;
     private boolean ENABLE_LOCAL_MODE = true;
     private boolean ENABLE_DEEP_SEMANTIC = false;
+    private boolean AUTO_TRIGGER = true;
     private int MAX_SIZE = 10;
     private int TIME_OUT = 200;
 
@@ -94,5 +95,13 @@ public class SettingConfig implements PersistentStateComponent<SettingConfig> {
 
     public void setTIME_OUT(int TIME_OUT) {
         this.TIME_OUT = TIME_OUT;
+    }
+
+    public boolean isAUTO_TRIGGER() {
+        return AUTO_TRIGGER;
+    }
+
+    public void setAUTO_TRIGGER(boolean AUTO_TRIGGER) {
+        this.AUTO_TRIGGER = AUTO_TRIGGER;
     }
 }

@@ -20,6 +20,7 @@ public class SettingsGUI {
 
     private JComboBox cbxTimeOut;
     private JComboBox cbxMaxSize;
+    private JCheckBox ckbAutoTrigger;
 
     public SettingsGUI(SettingConfig config) {
         this.config = config;
@@ -52,6 +53,7 @@ public class SettingsGUI {
         modified |= !ckbEnableOnline.isSelected() == config.isENABLE_REMORE_MODE();
         modified |= !ckbEnableLocal.isSelected() == config.isENABLE_LOCAL_MODE();
         modified |= !ckbSemantic.isSelected() == config.isENABLE_DEEP_SEMANTIC();
+        modified |= !ckbAutoTrigger.isSelected() == config.isAUTO_TRIGGER();
 
 //        modified |= !ckbSemantic.isSelected() == config.getMAX_SIZE();
 //        modified |= !ckbSemantic.isSelected() == config.getTIME_OUT();
@@ -63,6 +65,7 @@ public class SettingsGUI {
         config.setENABLE_REMORE_MODE(ckbEnableOnline.isSelected());
         config.setENABLE_LOCAL_MODE(ckbEnableLocal.isSelected());
         config.setENABLE_DEEP_SEMANTIC(ckbSemantic.isSelected());
+        config.setAUTO_TRIGGER(ckbAutoTrigger.isSelected());
 
 //        config.setMAX_SIZE();
 //        config.setTIME_OUT();

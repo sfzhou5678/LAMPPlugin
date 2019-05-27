@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
 import com.intellij.openapi.project.Project;
+import config.SettingConfig;
 import gui.LampMainToolWindow;
 import handler.RecommendSnippetHandler;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LAMPTypedHandler implements TypedActionHandler {
+    private SettingConfig config = SettingConfig.getInstance();
     private TypedActionHandler oldHandler;
     private RecommendSnippetHandler recommendSnippetHandler = new RecommendSnippetHandler();
 
@@ -33,15 +35,16 @@ public class LAMPTypedHandler implements TypedActionHandler {
         if (!REVERSED_SET.contains(charTyped)) {
             return;
         }
+        if (config.isAUTO_TRIGGER()) {
+            new Thread(() -> {
+                Project project = editor.getProject();
+                MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
+                LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
 
-        new Thread(() -> {
-            Project project = editor.getProject();
-            MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-            LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
-
-            final Document doc = editor.getDocument();
-            recommendSnippetHandler.execute(toolWindow, editor, doc);
-        }).start();
+                final Document doc = editor.getDocument();
+                recommendSnippetHandler.execute(toolWindow, editor, doc);
+            }).start();
+        }
     }
 
     public void setOldHandler(TypedActionHandler oldHandler) {

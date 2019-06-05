@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.zsf'
-version '1.0-SNAPSHOT'
+version '0.10-SNAPSHOT'
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {

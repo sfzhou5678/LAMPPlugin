@@ -25,11 +25,11 @@ public class LAMPHttpClient {
         this.baseUrl = String.format("http://%s:%d", host, port);
     }
 
-    public List<Pair<MethodInfo, Double>> searchCode(String codeContext, MethodInfo currentMethod, SettingConfig config) {
+    public List<Pair<MethodInfo, Double>> searchCode(List<String> codeContextTokens, MethodInfo currentMethod, SettingConfig config) {
         String restfulAPI = "search_codes";
         String url = baseUrl + "/" + restfulAPI;
         JSONObject map = new JSONObject(true);
-        map.put("codeContext", codeContext);
+        map.put("codeContextTokens", codeContextTokens);
         map.put("snippet", currentMethod);
         map.put("useBert", config.isENABLE_DEEP_SEMANTIC());
         String query = map.toJSONString();

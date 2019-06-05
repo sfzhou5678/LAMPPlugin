@@ -13,6 +13,7 @@ import slp.core.infos.MethodInfo;
 import slp.core.lexing.code.JavaDetailLexer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static slp.core.lexing.DetailLexerRunner.extractCurrentMethodInfo;
@@ -32,7 +33,9 @@ public class RecommendSnippetHandler {
             int offset = editor.getCaretModel().getOffset();    // the pos (offset) of cursor in the given document.
             String codeContext = doc.getText().substring(0, offset);
 
-            MethodInfo currentMethod = extractCurrentMethodInfo(lexer, codeContext);
+            HashMap<String, Object> tokenizeResults = lexer.tokenizeLines(codeContext, false);
+            List<String> codeContextTokens= (List<String>) tokenizeResults.get("tokens");
+            MethodInfo currentMethod = extractCurrentMethodInfo(lexer,tokenizeResults, codeContext);
             if (currentMethod != null) {
                 List<Pair<MethodInfo, Double>> methodInfoList = new ArrayList<>();
                 if (config.isENABLE_LOCAL_MODE()) {
@@ -46,7 +49,7 @@ public class RecommendSnippetHandler {
                 }
                 if (config.isENABLE_REMORE_MODE()) {
                     // 1. remote LM & remote retriever
-                    methodInfoList.addAll(httpClient.searchCode(codeContext, currentMethod, config));
+                    methodInfoList.addAll(httpClient.searchCode(codeContextTokens, currentMethod, config));
                 }
 
                 // TODO: 2019/4/24  3. merge results from remote & local, if remote overtimes, only show the local results.

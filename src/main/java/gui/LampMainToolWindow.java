@@ -22,18 +22,15 @@ public class LampMainToolWindow {
     private JTabbedPane tabbedPane;
 
     private JScrollPane scroll;
-    private JButton btnRefresh;
     private JLabel labelWelcomeImage;
     private JTextField someSlogansTextField;
-    private JButton button2;
 
-    Object[] columnIdentifiers = new Object[]{"CodeExamples"};
+    String ID_MAIN_COLUMN = "Relevant Snippets";
+    Object[] columnIdentifiers = new Object[]{ID_MAIN_COLUMN};
     private DefaultTableModel tableModel;
     private SnippetJTable table;
 
     public LampMainToolWindow(ToolWindow toolWindow) {
-        btnRefresh.addActionListener(e -> updateData());
-//        button2.addActionListener(e -> searchTest());
         this.initView();
     }
 
@@ -62,7 +59,7 @@ public class LampMainToolWindow {
 //                    if (!methodInfo.getDocComments().isEmpty()) {
 //                        stringBuilder.append("\t/**" + methodInfo.getDocComments() + "*/\n");
 //                    }
-                    stringBuilder.append("Score:" + String.valueOf(score) + "\n");  // FIXME: integrate this into GUI component
+//                    stringBuilder.append("Score:" + String.valueOf(score) + "\n");  // FIXME: integrate this into GUI component
                     stringBuilder.append(String.join("\n", methodInfo.getLineCodes()));
                     texts.add(stringBuilder.toString());
                 } catch (Exception e) {
@@ -75,8 +72,8 @@ public class LampMainToolWindow {
             tableModel.setDataVector(dataVector, columnIdentifiers);
 
             table = new SnippetJTable(tableModel);
-            table.getColumn("CodeExamples").setCellRenderer(new TextAreaRenderer());
-            table.getColumn("CodeExamples").setCellEditor(new TextAreaEditor());
+            table.getColumn(ID_MAIN_COLUMN).setCellRenderer(new TextAreaRenderer());
+            table.getColumn(ID_MAIN_COLUMN).setCellEditor(new TextAreaEditor());
 
             scroll.setViewportView(table);
         }
@@ -96,17 +93,21 @@ public class LampMainToolWindow {
 
     private void initData() {
         // TODO: 2019/4/24 welcome page or something else?
-        String tokens = "private void clickButtonAt(Point point) {\n" +
-                "        int index = jlist.locationToIndex(point);\n" +
-                "        PanelItem item = (PanelItem) jlist.getModel().getElementAt(index);\n" +
-                "        item.getButton().doClick();\n" +
-                "    }";
-        Object[][] dataVector = new Object[][]{{tokens}, {tokens}, {tokens}, {tokens}};
+//        String tokens = "private void clickButtonAt(Point point) {\n" +
+//                "        int index = jlist.locationToIndex(point);\n" +
+//                "        PanelItem item = (PanelItem) jlist.getModel().getElementAt(index);\n" +
+//                "        item.getButton().doClick();\n" +
+//                "    }";
+//        Object[][] dataVector = new Object[][]{{tokens}, {tokens}, {tokens}, {tokens}};
+
+        String tokens = "";
+        Object[][] dataVector = new Object[][]{{tokens}};
+
         tableModel.setDataVector(dataVector, columnIdentifiers);
 
         table = new SnippetJTable(tableModel);
-        table.getColumn("CodeExamples").setCellRenderer(new TextAreaRenderer());
-        table.getColumn("CodeExamples").setCellEditor(new TextAreaEditor());
+        table.getColumn(ID_MAIN_COLUMN).setCellRenderer(new TextAreaRenderer());
+        table.getColumn(ID_MAIN_COLUMN).setCellEditor(new TextAreaEditor());
 
         scroll.setViewportView(table);
     }

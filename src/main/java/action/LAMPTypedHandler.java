@@ -1,7 +1,6 @@
 package action;
 
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -22,17 +21,20 @@ public class LAMPTypedHandler implements TypedActionHandler {
     private TypedActionHandler oldHandler;
     private RecommendSnippetHandler recommendSnippetHandler = new RecommendSnippetHandler();
 
-    public static final Character[] reversedChars = {
-            '\n', ' ', '(', ')', '{', '}', '.', ';', '@', '+', '[', ']', '=', ',', '=', ':', '<', '>', '!'
+    //    public static final Character[] triggerChars = {
+//            '\n', ' ', '(', ')', '{', '}', '.', ';', '@', '+', '[', ']', '=', ',', '=', ':', '<', '>', '!'
+//    };
+    public static final Character[] triggerChars = {
+            '{', ';', '\n'
     };
 
-    public static final Set<Character> REVERSED_SET = new HashSet<>(Arrays.asList(reversedChars));
+    public static final Set<Character> TRIGGER_SET = new HashSet<>(Arrays.asList(triggerChars));
 
     @Override
     public void execute(@NotNull Editor editor, char charTyped, @NotNull DataContext dataContext) {
         if (oldHandler != null)
             oldHandler.execute(editor, charTyped, dataContext);
-        if (!REVERSED_SET.contains(charTyped)) {
+        if (!TRIGGER_SET.contains(charTyped)) {
             return;
         }
         if (config.isAUTO_TRIGGER()) {

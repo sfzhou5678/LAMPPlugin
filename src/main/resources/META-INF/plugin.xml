@@ -14,10 +14,10 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Code Examples" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
+        <toolWindow id="Lancer" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
         <projectService serviceInterface="service.MainToolWindowService"
                         serviceImplementation="service.MainToolWindowService"/>
-        <applicationConfigurable groupId="tools" displayName="LAMPSettings"
+        <applicationConfigurable groupId="tools" displayName="LancerSettings"
                                  id="LAMPConfigurable" instance="config.LAMPConfigurable"/>
         <applicationService serviceInterface="config.SettingConfig" serviceImplementation="config.SettingConfig"/>
     </extensions>

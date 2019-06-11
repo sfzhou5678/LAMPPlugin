@@ -23,7 +23,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 
 //        textarea.setLineWrap(true);
 //        textarea.setWrapStyleWord(true);
-        textarea.setBorder(new TitledBorder("Title Border"));
+//        textarea.setBorder(new TitledBorder("Title Border"));
         scrollpane.getViewport().add(textarea);
 
     }

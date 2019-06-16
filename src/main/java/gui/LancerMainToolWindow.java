@@ -4,7 +4,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import component.SnippetJTable;
 import component.TextAreaEditor;
 import component.TextAreaRenderer;
-import http.LAMPHttpClient;
+import http.LancerHttpClient;
 import javafx.util.Pair;
 import slp.core.infos.MethodInfo;
 
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LampMainToolWindow {
+public class LancerMainToolWindow {
     private JPanel mainPanel;
 
     private JTabbedPane tabbedPane;
@@ -30,7 +30,7 @@ public class LampMainToolWindow {
     private DefaultTableModel tableModel;
     private SnippetJTable table;
 
-    public LampMainToolWindow(ToolWindow toolWindow) {
+    public LancerMainToolWindow(ToolWindow toolWindow) {
         this.initView();
     }
 
@@ -79,13 +79,13 @@ public class LampMainToolWindow {
         }
     }
 
-    private LAMPHttpClient httpClient;
+    private LancerHttpClient httpClient;
 
     @Deprecated
     private void updateData() {
 //  codes for BCB eval
 //        if (httpClient == null) {
-//            httpClient = new LAMPHttpClient("localhost", 58362);
+//            httpClient = new LancerHttpClient("localhost", 58362);
 //        }
 //        List<MethodInfo> methodInfoList = httpClient.showNextExample();
 //        updateView(methodInfoList);

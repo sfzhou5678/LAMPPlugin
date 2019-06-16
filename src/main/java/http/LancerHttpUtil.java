@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class LAMPHttpUtil {
+public class LancerHttpUtil {
     /**
      * Given url and query, return response(json format).
      *

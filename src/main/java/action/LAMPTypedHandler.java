@@ -7,7 +7,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
 import com.intellij.openapi.project.Project;
 import config.SettingConfig;
-import gui.LampMainToolWindow;
+import gui.LancerMainToolWindow;
 import handler.RecommendSnippetHandler;
 import org.jetbrains.annotations.NotNull;
 import service.MainToolWindowService;
@@ -41,7 +41,7 @@ public class LAMPTypedHandler implements TypedActionHandler {
             new Thread(() -> {
                 Project project = editor.getProject();
                 MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-                LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
+                LancerMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
 
                 final Document doc = editor.getDocument();
                 recommendSnippetHandler.execute(toolWindow, editor, doc);

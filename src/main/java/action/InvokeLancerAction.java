@@ -7,7 +7,7 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import gui.LampMainToolWindow;
+import gui.LancerMainToolWindow;
 import handler.RecommendSnippetHandler;
 import org.jetbrains.annotations.NotNull;
 import service.MainToolWindowService;
@@ -22,7 +22,7 @@ public class InvokeLancerAction extends AnAction {
             // get get registered service
             Project project = e.getData(PlatformDataKeys.PROJECT);
             MainToolWindowService mainToolWindowService = ServiceManager.getService(project, MainToolWindowService.class);
-            LampMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
+            LancerMainToolWindow toolWindow = mainToolWindowService.getToolWindow();
 
             Editor editor = e.getData(PlatformDataKeys.EDITOR);
             final Document doc = editor.getDocument();

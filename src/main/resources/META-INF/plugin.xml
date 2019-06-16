@@ -14,21 +14,21 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Lancer" secondary="true" anchor="right" factoryClass="LAMPToolWindowFactory"/>
+        <toolWindow id="Lancer" secondary="true" anchor="right" factoryClass="LancerToolWindowFactory"/>
         <projectService serviceInterface="service.MainToolWindowService"
                         serviceImplementation="service.MainToolWindowService"/>
         <applicationConfigurable groupId="tools" displayName="LancerSettings"
-                                 id="LAMPConfigurable" instance="config.LAMPConfigurable"/>
+                                 id="LAMPConfigurable" instance="config.LancerConfigurable"/>
         <applicationService serviceInterface="config.SettingConfig" serviceImplementation="config.SettingConfig"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="com.zsf.InvokeLAMPAction" class="action.InvokeLAMPAction" text="InvokeLAMPAction">
+        <action id="com.zsf.InvokeLAMPAction" class="action.InvokeLancerAction" text="InvokeLAMPAction">
             <add-to-group group-id="CodeMenu" anchor="before" relative-to-action="OverrideMethods"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift alt A"/>
         </action>
-        <action id="com.zsf.ImplicitlyInvokeLAMPAction" class="action.ImplicitlyInvokeLAMPAction"
+        <action id="com.zsf.ImplicitlyInvokeLAMPAction" class="action.ImplicitlyInvokeLancerAction"
                 text="ImplicitlyInvokeLAMPAction" description="ImplicitlyInvokeLAMPAction"/>
     </actions>
 </idea-plugin>

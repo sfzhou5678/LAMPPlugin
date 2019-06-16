@@ -3,8 +3,8 @@ package handler;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import config.SettingConfig;
-import gui.LampMainToolWindow;
-import http.LAMPHttpClient;
+import gui.LancerMainToolWindow;
+import http.LancerHttpClient;
 import javafx.util.Pair;
 import org.apache.lucene.search.Query;
 import retriever.LuceneMultiFiledsQueryBuilder;
@@ -21,13 +21,13 @@ import static slp.core.lexing.DetailLexerRunner.extractCurrentMethodInfo;
 public class RecommendSnippetHandler {
     private JavaDetailLexer lexer = new JavaDetailLexer();
     private LuceneRetriever retriever = LuceneRetriever.getRetriever();
-    private LAMPHttpClient httpClient = new LAMPHttpClient("localhost", 58362);
+    private LancerHttpClient httpClient = new LancerHttpClient("localhost", 58362);
 
     {
         lexer.setMinSnippetLength(1);
     }
 
-    public void execute(LampMainToolWindow toolWindow, Editor editor, Document doc) {
+    public void execute(LancerMainToolWindow toolWindow, Editor editor, Document doc) {
         SettingConfig config = SettingConfig.getInstance();
         try {
             int offset = editor.getCaretModel().getOffset();    // the pos (offset) of cursor in the given document.
@@ -40,7 +40,6 @@ public class RecommendSnippetHandler {
                 List<Pair<MethodInfo, Double>> methodInfoList = new ArrayList<>();
                 if (config.isENABLE_LOCAL_MODE()) {
                     // 2. local LM & local retriever
-                    // TODO: 2019/5/20 refactor to API
                     Query query = LuceneMultiFiledsQueryBuilder.buildQuery(currentMethod);
                     List<MethodInfo> methodInfos = retriever.search(query, 2);
                     for (MethodInfo methodInfo : methodInfos) {
@@ -52,7 +51,6 @@ public class RecommendSnippetHandler {
                     methodInfoList.addAll(httpClient.searchCode(codeContextTokens, currentMethod, config));
                 }
 
-                // TODO: 2019/4/24  3. merge results from remote & local, if remote overtimes, only show the local results.
                 if (methodInfoList.size() == 0)
                     return;
 

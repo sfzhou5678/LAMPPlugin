@@ -1,11 +1,6 @@
 package indexer;
 
 import com.alibaba.fastjson.JSON;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import gui.LampMainToolWindow;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -15,7 +10,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import retriever.LuceneRetriever;
-import service.MainToolWindowService;
 import slp.core.infos.FileInfo;
 import slp.core.infos.InfoCollector;
 import slp.core.infos.MethodInfo;

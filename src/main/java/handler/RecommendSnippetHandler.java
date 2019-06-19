@@ -18,6 +18,7 @@ import java.util.List;
 
 import static slp.core.lexing.DetailLexerRunner.extractCurrentMethodInfo;
 
+
 public class RecommendSnippetHandler {
     private JavaDetailLexer lexer = new JavaDetailLexer();
     private LuceneRetriever retriever = LuceneRetriever.getRetriever();
